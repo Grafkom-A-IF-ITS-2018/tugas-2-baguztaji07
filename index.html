@@ -231,6 +231,7 @@
         mat4.perspective(pMatrix, glMatrix.toRadian(45), gl.viewportWidth / gl.viewportHeight, 0.1, 100.0)
         mat4.identity(mvMatrix)
         mat4.translate(mvMatrix, mvMatrix, [0.0, 0.0, -4.0])
+        cekColl()
         gLetMove()
         mvPushMatrix()
         mat4.rotate(mvMatrix, mvMatrix, glMatrix.toRadian(rTri), [0.0, 0.0, 0.0])
@@ -276,6 +277,18 @@
         hurufb = matrixRotating(hurufb, lrTurn * 1.5, center[0], center[2])
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(hurufb), gl.STATIC_DRAW)
         //console.log(hurufb);
+      }
+      var pointArr = [0, 15, 18, 21, 33, 45]
+      function cekColl() {
+        for (var i = 0; i < posss.length; i++) {
+          for (var k = 0; k < pointArr.length; k++) {
+            if (hurufb[pointArr[k] + i] >= 1 || hurufb[pointArr[k] + i] <= -1) {
+                posss[i] *= -1
+                lrTurn *= -1
+                break
+            }
+          }
+        }
       }
       function tick() {
         requestAnimationFrame(tick)
