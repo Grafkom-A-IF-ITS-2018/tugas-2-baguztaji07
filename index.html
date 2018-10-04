@@ -231,8 +231,9 @@
         mat4.perspective(pMatrix, glMatrix.toRadian(45), gl.viewportWidth / gl.viewportHeight, 0.1, 100.0)
         mat4.identity(mvMatrix)
         mat4.translate(mvMatrix, mvMatrix, [0.0, 0.0, -4.0])
+        gLetMove()
         mvPushMatrix()
-        mat4.rotate(mvMatrix, mvMatrix, glMatrix.toRadian(rTri), [0.0, 1.0, 0.0])
+        mat4.rotate(mvMatrix, mvMatrix, glMatrix.toRadian(rTri), [0.0, 0.0, 0.0])
         //mat4.rotateY(mvMatrix, mvMatrix, glMatrix.toRadian(rTri))
         gl.bindBuffer(gl.ARRAY_BUFFER, gVertexPosBuffer)
         gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, gVertexPosBuffer.itemSize, gl.FLOAT, false, 0, 0)
@@ -262,6 +263,19 @@
           rSquare += (75 * elapsed) / 1000.0
         }
         lastTime = timeNow
+      }
+      var center = [0, 0, 0]
+      var posss = [1, 1, 1]
+      var lrTurn = 1.0
+      function gLetMove() {
+        gl.bindBuffer(gl.ARRAY_BUFFER, gVertexPosBuffer)
+        hurufb = matrixTranslating(hurufb,posss[0]*0.01,posss[1]*0.01,posss[2]*0.01)
+        center[0] += (posss[0]*0.01)
+        center[1] += (posss[1]*0.01)
+        center[2] += (posss[2]*0.01)
+        hurufb = matrixRotating(hurufb, lrTurn * 1.5, center[0], center[2])
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(hurufb), gl.STATIC_DRAW)
+        //console.log(hurufb);
       }
       function tick() {
         requestAnimationFrame(tick)
